@@ -19,8 +19,13 @@ $pdo = new PDO($dsn, $user, $password);
 $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
 /* if we set a default attribute, then we don't have to define a fetch mode again on the loop. But we can override a default method if we want */
 
+
+// User Inputs
+$author = "Al Nahian";
+$is_published = true;
+$id = 1;
 // PDO Query
-$statement = $pdo->query("SELECT * FROM posts");
+// $statement = $pdo->query("SELECT * FROM posts");
 
 // Fetch the db data and iterate through a while loop
 // while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
@@ -30,3 +35,44 @@ $statement = $pdo->query("SELECT * FROM posts");
 // while ($row = $statement->fetch()) {
 //     echo $row->title . "<br>";
 // }
+
+
+// Prepared Statements (Prepare & Execute). Let's fetch some posts with prepared statement, which is the safe way!
+
+// Positional Prameters
+// $sql = "SELECT * FROM posts WHERE author = ?"; // '?' is like a placeholder.
+// $author = "Al Nahian";
+// $statement = $pdo->prepare($sql); // prepare the sql
+
+// $statement->execute([$author]);
+// // execute is too sensitive. we have to maintain order if we are using multiple placeholder in our sql
+
+// $posts = $statement->fetchAll(); // fetch all the data
+
+// Named Parameters
+// $sql = "SELECT * FROM posts WHERE author = :author && :is_published = is_published";
+// $author = "Kevin Malone";
+// $statement = $pdo->prepare($sql);
+// $statement->execute(["author" => $author, "is_published" => $is_published]);
+// $posts = $statement->fetchAll();
+
+// // Show all data using a foreach loop
+// foreach ($posts as $post) {
+//     echo "ID:{$post->id} {$post->title} [{$post->is_published}] <br>";
+// }
+
+
+// Fetch Single Post
+$sql = "SELECT * FROM posts WHERE id = :id";
+$statement = $pdo->prepare($sql);
+$statement->execute(["id" => $id]);
+$post = $statement->fetch();
+
+$time = strtotime($post->date);
+$date = date("h:i:s D m, Y", $time);
+?>
+
+
+<h1><?= $post->title; ?></h1>
+<small><?= $date; ?></small>
+<p><?= $post->body; ?></p>
