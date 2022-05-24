@@ -63,16 +63,32 @@ $id = 1;
 
 
 // Fetch Single Post
-$sql = "SELECT * FROM posts WHERE id = :id";
-$statement = $pdo->prepare($sql);
-$statement->execute(["id" => $id]);
-$post = $statement->fetch();
+// $sql = "SELECT * FROM posts WHERE id = :id";
+// $statement = $pdo->prepare($sql);
+// $statement->execute(["id" => $id]);
+// $post = $statement->fetch();
 
-$time = strtotime($post->date);
-$date = date("h:i:s D m, Y", $time);
+// $time = strtotime($post->date);
+// $date = date("h:i:s D m, Y", $time);
+// 
 ?>
 
+<!--
+<h1><? //echo $post->title; 
+    ?></h1>
+<small><? //echo $date; 
+        ?></small>
+<p><? //echo $post->body; 
+    ?></p>
+-->
 
-<h1><?= $post->title; ?></h1>
-<small><?= $date; ?></small>
-<p><?= $post->body; ?></p>
+
+<?php
+// Get Row Count
+$statement = $pdo->prepare("SELECT * FROM posts WHERE author = ? && is_published = ?");
+
+$statement->execute([$author, $is_published]);
+$postCount = $statement->rowCount();
+
+echo "{$author} has {$postCount} available posts";
+?>
