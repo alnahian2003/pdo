@@ -85,10 +85,22 @@ $id = 1;
 
 <?php
 // Get Row Count
-$statement = $pdo->prepare("SELECT * FROM posts WHERE author = ? && is_published = ?");
+// $statement = $pdo->prepare("SELECT * FROM posts WHERE author = ? && is_published = ?");
 
-$statement->execute([$author, $is_published]);
-$postCount = $statement->rowCount();
+// $statement->execute([$author, $is_published]);
+// $postCount = $statement->rowCount();
 
-echo "{$author} has {$postCount} available posts";
+// echo "{$author} has {$postCount} available posts";
+
+
+// Insert/Create Data
+// $title = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique, assumenda!";
+// $body = "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quis dignissimos corrupti voluptate rem voluptatibus dolorem quas amet porro? Nisi, accusamus. Assumenda a adipisci optio voluptate cumque tenetur incidunt dolores totam?";
+// $author = "Al Nahian";
+
+// $statement = $pdo->prepare("INSERT posts(title, body, author) VALUES(:title, :body,:author)");
+
+// $statement->execute(["title" => $title, "body" => $body, "author" => $author,]);
+// echo "Post Added";
+
 ?>
