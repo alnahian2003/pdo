@@ -103,4 +103,14 @@ $id = 1;
 // $statement->execute(["title" => $title, "body" => $body, "author" => $author,]);
 // echo "Post Added";
 
+
+// Update Data
+$id = 5;
+$title = "Lorem ipsum updated title";
+$body = "Post body updated";
+
+$statement = $pdo->prepare("UPDATE posts SET title = :title, body = :body WHERE id = :id");
+
+$statement->execute(["id" => $id, "title" => $title, "body" => $body]);
+echo "Post Updated";
 ?>
