@@ -116,8 +116,19 @@ $id = 1;
 
 
 // Delete Data
-$id = 4;
-$statement = $pdo->prepare("DELETE FROM posts WHERE id = ?");
-$statement->execute([$id]);
-echo "Post Deleted";
+// $id = 4;
+// $statement = $pdo->prepare("DELETE FROM posts WHERE id = ?");
+// $statement->execute([$id]);
+// echo "Post Deleted";
+
+
+// Search Data
+$search = "%lorem%"; // case insensitive
+$statement = $pdo->prepare("SELECT * FROM posts WHERE title LIKE ?");
+$statement->execute([$search]);
+$posts = $statement->fetchAll();
+
+foreach ($posts as $post) {
+    echo "Match Found in: {$post->title} <br>";
+}
 ?>
