@@ -17,6 +17,7 @@ $dsn = "mysql:host={$host}; dbname={$dbname}";
 // Create a PDO instance
 $pdo = new PDO($dsn, $user, $password);
 $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
+$pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false); // it disabled the emulation mode
 /* if we set a default attribute, then we don't have to define a fetch mode again on the loop. But we can override a default method if we want */
 
 
@@ -123,12 +124,30 @@ $id = 1;
 
 
 // Search Data
-$search = "%lorem%"; // case insensitive
-$statement = $pdo->prepare("SELECT * FROM posts WHERE title LIKE ?");
-$statement->execute([$search]);
+// $search = "%lorem%"; // case insensitive
+// $statement = $pdo->prepare("SELECT * FROM posts WHERE title LIKE ?");
+// $statement->execute([$search]);
+// $posts = $statement->fetchAll();
+
+// foreach ($posts as $post) {
+//     echo "Match Found in: {$post->title} <br>";
+// }
+
+
+/**
+ * While we're trying to limit posts using positional parameter,
+ * then we must need to configure and disable emulation mode first.
+ * Otherwise it will copy the value like this "LIMIT 2 2" and won't work.
+ * */
+
+// Limit How Many Rows Data to Be Shown
+$limit = 2;
+
+$statement = $pdo->prepare("SELECT * FROM posts WHERE author = ? LIMIT ?");
+$statement->execute(["Al Nahian", $limit]);
 $posts = $statement->fetchAll();
 
 foreach ($posts as $post) {
-    echo "Match Found in: {$post->title} <br>";
+    echo "{$post->title} <br>";
 }
 ?>
