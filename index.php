@@ -105,12 +105,19 @@ $id = 1;
 
 
 // Update Data
-$id = 5;
-$title = "Lorem ipsum updated title";
-$body = "Post body updated";
+// $id = 5;
+// $title = "Lorem ipsum updated title";
+// $body = "Post body updated";
 
-$statement = $pdo->prepare("UPDATE posts SET title = :title, body = :body WHERE id = :id");
+// $statement = $pdo->prepare("UPDATE posts SET title = :title, body = :body WHERE id = :id");
 
-$statement->execute(["id" => $id, "title" => $title, "body" => $body]);
-echo "Post Updated";
+// $statement->execute(["id" => $id, "title" => $title, "body" => $body]);
+// echo "Post Updated";
+
+
+// Delete Data
+$id = 4;
+$statement = $pdo->prepare("DELETE FROM posts WHERE id = ?");
+$statement->execute([$id]);
+echo "Post Deleted";
 ?>
